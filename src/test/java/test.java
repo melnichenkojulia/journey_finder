@@ -1,49 +1,28 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
-
-import java.util.*;
-
-import static java.lang.Thread.sleep;
+import java.util.List;
+import java.util.Set;
 
 
 
 public class test {
-
     public static void main(String[] args) throws InterruptedException, IOException {
-        System.setProperty("webdriver.chrome.driver", test.class.getResource("chromedriver.exe").getPath());
-        WebDriver driver = new ChromeDriver();
-
-        driver.get("https://www.poehalisnami.ua/goryashie-turi");
-        driver.manage().window().maximize();
-        sleep(100);
-
-        int i=0;
-        Set<String> Links = new HashSet<>();
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        while (i<10) {
-            List<WebElement> elements = driver.findElements(By.className("b-tour-cards__item"));
-            System.out.println("Elements:" + elements.size());
-            for (WebElement elem : elements) {
-                Links.add(elem.getAttribute("href"));
-            }
-            js.executeScript("window.scrollBy(0,1000);");
-            sleep(1000);
-            i++;
-        }
-
-        sleep(3000);
-        System.out.println("total:");
-        System.out.println(Links);
-
+        connection connect1=new connection();
+        WebDriver driver=connect1.connect();
+        connect1.scroll(driver);
+        List<WebElement> elements=connect1.findLinks(driver);
+        Set <String> Links=connect1.GoByLinks(elements);
+        connect1.parse_by_links(Links);
         driver.quit();
 
 
+}
+}
 
 
-    }}
+
+
+
+
